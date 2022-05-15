@@ -11,7 +11,6 @@ use App\ValueObject\Coordinates;
 use JsonException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-
 /**
  * @covers \App\Service\Geocode\ApiResponseParser\HereMapsResponseParser
  */
