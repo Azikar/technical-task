@@ -52,8 +52,8 @@ bin/console doctrine:database:create
 bin/console doctrine:schema:create
 ```
 
-then go to `http://localhost/coordinates` and it should return 
-or then go to `http://localhost/v2/coordinates` and it should return
+then go to `http://localhost/coordinates`
+or go to `http://localhost/v2/coordinates` and it should return
 
 ```
 {"lat":55.90742079144914,"lng":21.135541627577837}
