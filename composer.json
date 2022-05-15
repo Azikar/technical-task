@@ -31,9 +31,6 @@
         "optimize-autoloader": true,
         "preferred-install": {
             "*": "dist"
-        },
-        "allow-plugins": {
-            "symfony/flex": true
         }
     },
     "autoload": {
