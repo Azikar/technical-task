@@ -4,14 +4,28 @@ declare(strict_types=1);
 
 namespace App\ValueObject;
 
-class Address implements AddressInterface
+use Symfony\Component\Validator\Constraints as Assert;
+
+class GeocoderAddress implements AddressInterface
 {
+    /**
+     * @Assert\Length(max=3)
+     */
     private string $country;
 
+    /**
+     * @Assert\Length(max=255)
+     */
     private string $city;
 
+    /**
+     * @Assert\Length(max=255)
+     */
     private string $street;
 
+    /**
+     * @Assert\Length(max=16)
+     */
     private string $postcode;
 
     public function __construct(string $country, string $city, string $street, string $postcode)

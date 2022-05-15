@@ -47,16 +47,18 @@ docker-compose run php bash
 final project steps inside of docker container:
 ```
 composer install
+./vendor/bin/simple-phpunit
 bin/console doctrine:database:create
 bin/console doctrine:schema:create
 ```
 
 then go to `http://localhost/coordinates` and it should return 
+or then go to `http://localhost/v2/coordinates` and it should return
 
 ```
 {"lat":55.90742079144914,"lng":21.135541627577837}
 ```
 
-JSON. If you want to check different address, then add params to url: http://localhost/coordinates?countryCode=lithuania&city=vilnius&street=gedimino+9&postcode=12345 . 
+JSON. If you want to check different address, then add params to url: http://localhost/coordinates?countryCode=lt&city=vilnius&street=gedimino+9&postcode=12345 . 
 
 And that's it, good luck!

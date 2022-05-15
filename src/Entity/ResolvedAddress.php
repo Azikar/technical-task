@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ResolvedAddressRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,36 +18,44 @@ class ResolvedAddress
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Assert\Type("integer")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=3)
+     * @Assert\Type("string")
+     * @Assert\Length(max=3)
      */
     private $countryCode;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max=255)
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max=255)
      */
     private $street;
 
     /**
      * @ORM\Column(type="string", length=16)
+     * @Assert\Length(max=16)
      */
     private $postcode;
 
     /**
      * @ORM\Column(type="string", length=32, nullable=true)
+     * @Assert\Length(max=32)
      */
     private $lat;
 
     /**
      * @ORM\Column(type="string", length=32, nullable=true)
+     * @Assert\Length(max=32)
      */
     private $lng;
 

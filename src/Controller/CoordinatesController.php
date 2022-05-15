@@ -26,6 +26,7 @@ class CoordinatesController extends AbstractController
     /**
      * @Route(path="/coordinates", name="geocode")
      * @param Request $request
+     *
      * @return Response
      */
     public function geocodeAction(Request $request, ResolvedAddressRepository $repository): Response
@@ -53,7 +54,9 @@ class CoordinatesController extends AbstractController
     /**
      * @Route(path="/gmaps", name="gmaps")
      * @param Request $request
+     *
      * @return Response
+     * @throws \JsonException
      */
     public function gmapsAction(Request $request): Response
     {
@@ -94,6 +97,7 @@ class CoordinatesController extends AbstractController
     /**
      * @Route(path="/hmaps", name="hmaps")
      * @param Request $request
+     *
      * @return Response
      */
     public function hmapsAction(Request $request): Response
@@ -107,7 +111,10 @@ class CoordinatesController extends AbstractController
 
         $params = [
             'query' => [
-                'qq' => implode(';', ["country={$country}", "city={$city}", "street={$street}", "postalCode={$postcode}"]),
+                'qq' => implode(
+                    ';',
+                    ["country={$country}", "city={$city}", "street={$street}", "postalCode={$postcode}"]
+                ),
                 'apiKey' => $apiKey
             ]
         ];

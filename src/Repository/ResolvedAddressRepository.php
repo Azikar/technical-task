@@ -3,11 +3,14 @@
 namespace App\Repository;
 
 use App\Entity\ResolvedAddress;
-use App\ValueObject\Address;
+use App\ValueObject\AddressInterface;
 use App\ValueObject\Coordinates;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
+use Symfony\Component\Validator\Validation;
 
 /**
  * @method ResolvedAddress|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,14 +18,14 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method ResolvedAddress[]    findAll()
  * @method ResolvedAddress[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ResolvedAddressRepository extends ServiceEntityRepository
+class ResolvedAddressRepository extends ServiceEntityRepository implements ResolvedAddressRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ResolvedAddress::class);
     }
 
-    public function getByAddress(Address $address): ?ResolvedAddress
+    public function getByAddress(AddressInterface $address): ?ResolvedAddress
     {
         return $this->findOneBy([
             'countryCode' => $address->getCountry(),
@@ -32,7 +35,12 @@ class ResolvedAddressRepository extends ServiceEntityRepository
         ]);
     }
 
-    public function saveResolvedAddress(Address $address, ?Coordinates $coordinates): void
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     * @throws Exception
+     */
+    public function saveResolvedAddress(AddressInterface $address, ?Coordinates $coordinates): void
     {
         $resolvedAddress = new ResolvedAddress();
         $resolvedAddress
@@ -45,6 +53,11 @@ class ResolvedAddressRepository extends ServiceEntityRepository
             $resolvedAddress
                 ->setLat((string) $coordinates->getLat())
                 ->setLng((string) $coordinates->getLng());
+        }
+        $validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
+
+        if (count($validator->validate($resolvedAddress)) > 0) {
+            throw new Exception('Invalid data');
         }
 
         $this->getEntityManager()->persist($resolvedAddress);
