@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Geocode\ApiHandler;
 
-use App\Factory\ApiClientFactory;
+use App\Factory\ApiClientFactoryInterface;
 use App\ValueObject\AddressInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
@@ -13,14 +13,14 @@ class GoogleHandler implements HandlerInterface
 {
     private string $key;
 
-    private ApiClientFactory $apiClientFactory;
+    private ApiClientFactoryInterface $apiClientFactory;
 
     private string $apiUrl;
 
     public function __construct(
         string $key,
         string $apiUrl,
-        ApiClientFactory $apiClientFactory
+        ApiClientFactoryInterface $apiClientFactory
     ) {
         $this->key = $key;
         $this->apiClientFactory = $apiClientFactory;
@@ -43,7 +43,7 @@ class GoogleHandler implements HandlerInterface
     /**
      * @throws GuzzleException
      */
-    public function executeGetRequest(array $request): ResponseInterface
+    private function executeGetRequest(array $request): ResponseInterface
     {
         try {
             return $this->apiClientFactory->getClient()->get($this->apiUrl, $request);
@@ -53,7 +53,7 @@ class GoogleHandler implements HandlerInterface
         }
     }
 
-    public function getRequest(AddressInterface $address): array
+    private function getRequest(AddressInterface $address): array
     {
         return [
             'query' => [

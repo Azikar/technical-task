@@ -14,6 +14,4 @@ interface HandlerInterface
      * @throws GuzzleException
      */
     public function getGeocoding(AddressInterface $address): ResponseInterface;
-
-    public function getRequest(AddressInterface $address): array;
 }
